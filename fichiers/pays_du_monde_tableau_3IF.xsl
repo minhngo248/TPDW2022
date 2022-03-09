@@ -104,8 +104,8 @@
     <xsl:template match="country">
       <td>
 		  <!--nom commun du pays en vert et nom officiel du pays entre parenthèse-->
-		  <span style="color:green"/>
-		  <xsl:value-of select="c_name/comm_name"/> (<xsl:value-of select=".//of_name"/>) 
+		  <span style="color:green">
+		  <xsl:value-of select="c_name/comm_name"/></span> (<xsl:value-of select=".//of_name"/>) 
 		  <!--nom natif officiel en français du pays en bleu s'il existe-->
 		  <xsl:if test=".//native_name[@lang='fra']">
 			<span style="color:blue">

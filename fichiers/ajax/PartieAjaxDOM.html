@@ -25,27 +25,57 @@
     Remplace le texte "LES NOMS" avec le code de pays de saisi. Charge le fichier countries.xml en ajax. <br/>
     <input id="myText1" name="text" type="text" value="VN" />
 	<input id="myButton3" name="Button 3" type="button"  onClick="search(document.getElementById('myText1').value)" value="Bouton 3" />
-    <br/>
-    <br/>
+    <br/><br/>
 
     Bouton 4 :
     <input id="myButton4" name="Button 4" type="button" value="Bouton 4" onClick="func4()"/>
     </br><br/>
+
+    Bouton 5 change image affichée to a button:
+    <input id="myButton5" name="Button 5" type="button" value="Bouton 5" onclick="func5()"/>
+    </br><br/>
+
+    Bouton 6 afficher la carte WorldHigh:
+    <input id="myButton6" name="Button 6" type="button" value="Bouton 6" onclick="func6()"/>
+    </br><br/>
+
+    Bouton 7 cliquer sur un pays:
+    <input id="myButton7" name="Button 7" type="button" value="Bouton 7" onclick="func7()"/>
+    </br><br/>
+
+    Bouton 8 activer mouseover:
+    <input id="myButton8" name="Button 8" type="button" value="Bouton 8" onclick="func8()"/>
+    </br><br/>
     </p>
     </div>
 
-    <div>
+<!--    <div>
     <p>Les noms sont : <br/>
         <span id="id_nom_a_remplacer" style="color: red; font-weight: bold;">LES NOMS (Cet élément va être remplacé par les noms) </span></p>
-    </div>
+    </div> -->
 
     <div id="id_element_a_remplacer">
-    <p style="color: red; font-weight: bold;">Cet élément va être remplacé par une bibliographie en XML mise en forme par une feuille de style XSLT...</p>
+    <p style="color: red; font-weight: bold;">Pays remplacé</p>
     </div>
     
     <div id="id_img_a_remplacer">
-    <!--    <svg><g><circle id="leCercle" title="un cercle" cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" />
-        </g></svg> -->
+        <p style="color: red; font-weight: bold;">Image à remplacer</p>
+    </div>
+
+    <div id="titre_img_a_remplacer">
+        <p style="color: green; font-weight: bold;">Titre image à remplacer</p>
+    </div>
+
+    <div id="table_a_remplacer">
+        <p style="color: green; font-weight: bold;">Table à remplacer</p>
+    </div>
+
+    <div id="carte_a_remplacer">
+        <p style="color: green; font-weight: bold;">Carte à remplacer</p>
+    </div>
+
+    <div id="countryname_a_remplacer">
+        <p style="color: green; font-weight: bold;">Nom d'un pays à remplacer</p>
     </div>
 </body>
 

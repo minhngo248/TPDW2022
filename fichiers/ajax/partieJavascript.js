@@ -20,12 +20,11 @@ function modifyColorReverse()
 function search(codeCountry) {
 
 	//recherche le nom officiel et la capitale du pays dont le code est en paramètre dans le fichier XML	
-    AjaxCountries('countriesTP.xml', codeCountry);
 
     // Charge le fichier XML contenant des références bibliographiques, une feuille de style, 
     // applique la feuille de style sur le fichier XML et affiche le résultat en bas de la page:
 	
-    AjaxLoadXsl('countriesTP.xml','cherchePays.xsl','element_a_recuperer');
+    AjaxLoadXsl('countriesTP.xml','cherchePays.xsl','element_a_recuperer', codeCountry);
 }
 
 
@@ -62,6 +61,7 @@ function AjaxCountries(xmlDocumentUrl, codeCountry) {
     
     for (i = 0; i < codeC.length; i++) {    
         if (codeC[i].innerHTML === codeCountry) {
+
             var country = xmlDocument.getElementsByTagName("c_name")[i];
             var of_name = country.childNodes[3].innerHTML;
             var capitale = xmlDocument.getElementsByTagName("capital")[i].innerHTML;
@@ -75,44 +75,147 @@ function AjaxCountries(xmlDocumentUrl, codeCountry) {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function AjaxLoadXsl(xmlDocumentUrl, xslDocumentUrl, baliseElementARecuperer) {
+function AjaxLoadXsl(xmlDocumentUrl, xslDocumentUrl, baliseElementARecuperer, codeCountry) {
+
 
     // Chargement du fichier XSL à l'aide de XMLHttpRequest synchrone 
     var xslDocument = chargerHttpXML(xslDocumentUrl);
-
-	//création d'un processuer XSL
+    
+    //création d'un processuer XSL
     var xsltProcessor = new XSLTProcessor();
-
+    
     // Importation du .xsl
     xsltProcessor.importStylesheet(xslDocument);
-
+    
+    xsltProcessor.setParameter("", "codecca2", codeCountry);
+    
     // Chargement du fichier XML à l'aide de XMLHttpRequest synchrone 
     var xmlDocument = chargerHttpXML(xmlDocumentUrl);
 
     // Création du document XML transformé par le XSL
     var newXmlDocument = xsltProcessor.transformToDocument(xmlDocument);
-
+    
     // Recherche du parent (dont l'id est "here") de l'élément à remplacer dans le document HTML courant
     var elementHtmlParent = window.document.getElementById("id_element_a_remplacer");
     
 	// insérer l'élément transformé dans la page html
     elementHtmlParent.innerHTML=newXmlDocument.getElementsByTagName(baliseElementARecuperer)[0].innerHTML;
-	
-
 }
 
-function func4() {
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function AjaxLoadXsl1(xmlDocumentUrl, xslDocumentUrl, baliseElementARecuperer, codeCountry) {
+
+
+    // Chargement du fichier XSL à l'aide de XMLHttpRequest synchrone 
+    var xslDocument = chargerHttpXML(xslDocumentUrl);
+    
+    //création d'un processuer XSL
+    var xsltProcessor = new XSLTProcessor();
+    
+    // Importation du .xsl
+    xsltProcessor.importStylesheet(xslDocument);
+    
+    xsltProcessor.setParameter("", "code2", codeCountry);
+    
     // Chargement du fichier XML à l'aide de XMLHttpRequest synchrone 
-    var xmlDocument = chargerHttpXML('exemple.svg');
+    var xmlDocument = chargerHttpXML(xmlDocumentUrl);
 
     // Création du document XML transformé par le XSL
     var newXmlDocument = xsltProcessor.transformToDocument(xmlDocument);
     
     // Recherche du parent (dont l'id est "here") de l'élément à remplacer dans le document HTML courant
+    var elementHtmlParent = window.document.getElementById("table_a_remplacer");
+    
+	// insérer l'élément transformé dans la page html
+    elementHtmlParent.innerHTML=newXmlDocument.getElementsByTagName(baliseElementARecuperer)[0].innerHTML;
+}
+
+//////////////////////////////////////////////////////////////////////
+/////   Load exemple.svg and serialize it ///////////////
+function func4() {
+    // Chargement du fichier XML à l'aide de XMLHttpRequest synchrone 
+    var xmlDocument = chargerHttpXML('exemple.svg');
+    
+    // Recherche du parent (dont l'id est "here") de l'élément à remplacer dans le document HTML courant
     var elementHtmlParent = window.document.getElementById("id_img_a_remplacer");
-        
+    
+    //serialiser le DOM
+    var svg = xmlDocument.getElementById('lesFormes');
+    var serializer = new XMLSerializer();
+    var str = serializer.serializeToString(svg);
+
     // insérer l'élément transformé dans la page html
-    elementHtmlParent.innerHTML=newXmlDocument.getElementByTagName('svg').innerHTML;
+    elementHtmlParent.innerHTML = str;
+}
+
+////////////////////////////////////////////////////////////////
+function func5() {
+    var elementHtml = window.document.getElementById("id_img_a_remplacer").childNodes[0].childNodes[1];
+    for(i = 1; i <= 5; i+=2) {
+        elementHtml.childNodes[i].addEventListener("click" , func5_1);
+    }
+} 
+
+
+function func5_1() {
+    var elementHtmlParent = window.document.getElementById("titre_img_a_remplacer");
+    elementHtmlParent.innerHTML = this.getAttribute('title');
+}
+
+/////////////////////////////////////////////////////////////////////////
+function func6() {
+    // Chargement du fichier XML à l'aide de XMLHttpRequest synchrone 
+    var xmlDocument = chargerHttpXML('worldHigh.svg');
+    
+    // Recherche du parent (dont l'id est "here") de l'élément à remplacer dans le document HTML courant
+    var elementHtmlParent = window.document.getElementById("carte_a_remplacer");
+    
+    //serialiser le DOM
+    var svg = xmlDocument.getElementsByTagName('svg')[0];
+    var serializer = new XMLSerializer();
+    var str = serializer.serializeToString(svg);
+
+    // insérer l'élément transformé dans la page html
+    elementHtmlParent.innerHTML = str;    
+}
+
+//////////////////////////////////////////////////////////////////////
+/////  Make countries clickable    ///////////////////////////
+function func7() {
+    var elementHtml = window.document.getElementById("carte_a_remplacer").childNodes[0].childNodes[3];
+    for(i=1 ; i < elementHtml.childNodes.length ; i+=2) {
+        elementHtml.childNodes[i].addEventListener("click" , func7_1);
+    }
+}
+
+function func7_1() {
+    var elementHtmlParent = window.document.getElementById("countryname_a_remplacer");
+    elementHtmlParent.innerHTML = this.id;
+}
+
+/////////////////////////////////////////////////////////
+function func8() {
+    var elementHtml = window.document.getElementById("carte_a_remplacer").childNodes[0].childNodes[3];
+    for(i=1 ; i < elementHtml.childNodes.length ; i+=2) {
+        elementHtml.childNodes[i].addEventListener("mouseover" , func8_1);
+        elementHtml.childNodes[i].addEventListener("mouseout" , func8_2);
+    }
+}
+
+function func8_1() {
+    this.style = "fill: blue; fill-opacity: 1; stroke:while; stroke-opacity: 1; stroke-width:0.5;";
+    var xmlDocument = chargerHttpXML("countriesTP.xml");
+    var codeC = xmlDocument.getElementsByTagName('cca2');
+    for(i = 0 ; i < codeC.length ; i++) {
+        if (this.id === codeC[i].innerHTML) {
+            AjaxLoadXsl1('countriesTP.xml', 'table_pays.xsl', 'element_a_recuperer', this.id);
+            break;
+        }   
+    }
+}
+
+function func8_2() {
+    this.style = "fill: #CCCCCC; fill-opacity: 1; stroke:white; stroke-opacity: 1; stroke-width:0.5;";
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -184,7 +287,7 @@ function Bouton4_ajaxBibliographieAvecParametres(xmlDocumentUrl, xslDocumentUrl,
 
     // Création du document XML transformé par le XSL
     var newXmlDocument = xsltProcessor.transformToDocument(xmlDocument);
-
+    
     // Recherche du parent (dont l'id est "here") de l'élément à remplacer dans le document HTML courant
     var elementHtmlParent = window.document.getElementById("id_element_a_remplacer");
     
