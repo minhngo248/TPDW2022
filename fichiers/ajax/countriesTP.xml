@@ -2,7 +2,7 @@
 <!--
 	Sujet TP DW 3IF 2021, Elöd EGYED-ZSIGMOND 
 -->
-<?xml-stylesheet type="text/xsl" href="table_pays.xsl"?>
+<?xml-stylesheet type="text/xsl" href="cherchePays.xsl"?>
 
 <!DOCTYPE countries SYSTEM "countries.dtd">
 

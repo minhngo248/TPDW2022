@@ -6,13 +6,19 @@
 		<xsl:template match="/">
 			<html>
 				<body bgcolor="#FFFFCC">
-					<h1>Bibliographie</h1>
+					<h1>Pays cherchés</h1>
 					<element_a_recuperer>	
 						<ul>
-							<xsl:apply-templates select=".//country[$codecca2 = .//cca2]"/>												
+							<xsl:apply-templates select=".//country[$codecca2=.//cca2]"/>												
 							
 						</ul>
 					</element_a_recuperer>
+
+					<element_a_recuperer_1>
+						
+						<xsl:apply-templates select=".//country[../country[$codecca2=.//cca2]/languages/child::node()/text()=.//languages/child::node()/text()]//cca2"/>
+						
+					</element_a_recuperer_1>
 				</body>
 			</html>
 		</xsl:template>
@@ -22,5 +28,8 @@
 				<xsl:value-of select="./c_name/of_name"/> (<xsl:value-of select="./capital"/>).     
  		    </li>
 		</xsl:template>
-	
+
+		<xsl:template match="cca2">
+		<new_tag><xsl:value-of select = "." /></new_tag>
+		</xsl:template>
 </xsl:stylesheet>

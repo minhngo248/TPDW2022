@@ -8,11 +8,12 @@
 				<body bgcolor="#FFFFCC">
 					<h1>Bibliographie</h1>
 					<element_a_recuperer>
-					<table width="100%" border="3" align="center">
+					<table width="100%" border="3" align="center" style="text-align: center;">
 						<tr>
 						<th>Nom</th>
 						<th>Capitale</th>
 						<th>Langues parlées</th>
+						<th>Monnaie</th>
 						<th>Drapeau</th>
 						</tr>
 								
@@ -37,8 +38,12 @@
       	</td>
       <!--langues parlées-->
       <td>  
-		  <xsl:apply-templates select=".//languages"/>
+	  <ul><xsl:apply-templates select=".//languages"/></ul>
 	  </td>
+	    <td>
+		  <!--monnaie -->
+	  		<xsl:value-of select=".//currency"/>
+	  	</td>
       <!--drapeaux-->
       <td>
 		<img alt="" height="40" width="60">
@@ -53,6 +58,8 @@
 		</xsl:template>
 	
 		<xsl:template match="languages">
-			<xsl:value-of select="./*"/> 
+		<xsl:for-each select="child::*">
+			<li><xsl:value-of select="./text()"/></li>
+		</xsl:for-each> 
 		</xsl:template>
 </xsl:stylesheet>

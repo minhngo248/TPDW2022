@@ -1,4 +1,3 @@
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //modifie la couleur de l'arrière plan de la page en bleu et la couleur du texte du bouton en blanc 
 function modifyColor()
@@ -24,58 +23,11 @@ function search(codeCountry) {
     // Charge le fichier XML contenant des références bibliographiques, une feuille de style, 
     // applique la feuille de style sur le fichier XML et affiche le résultat en bas de la page:
 	
-    AjaxLoadXsl('countriesTP.xml','cherchePays.xsl','element_a_recuperer', codeCountry);
-}
-
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-function recupererPremierEnfantDeTypeElement(n) {
-    var x = n.firstChild;
-    while (x.nodeType != 1) { // Test if x is an element node (and not a text node or other)
-        x = x.nextSibling;
-    }
-    return x;
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//change le contenu de l'élément avec l'id "nom" avec la chaine de caractères en paramètre	  
-function setNom(nom) {
-    var elementHtmlARemplir = window.document.getElementById("id_nom_a_remplacer");
-    elementHtmlARemplir.innerHTML = nom;
+    AjaxLoadXsl('countriesTP.xml','cherchePays.xsl','element_a_recuperer','element_a_recuperer_1', codeCountry);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function AjaxCountries(xmlDocumentUrl, codeCountry) {
-
-    var xmlDocument = chargerHttpXML(xmlDocumentUrl);
-
-    //extraction des noms à partir du document XML (avec une feuille de style ou en javascript)
-    var codeC = xmlDocument.getElementsByTagName("cca2");
-
-    // Parcours de la liste des noms avec une boucle for et 
-    // construction d'une chaine de charactères contenant les noms séparés par des espaces 
-    // Pour avoir la longueur d'une liste : attribut 'length'
-    // Accès au texte d'un noeud "cca2" : NOM_NOEUD.firstChild.nodeValue
-    var chaineDesNoms = "";
-    
-    for (i = 0; i < codeC.length; i++) {    
-        if (codeC[i].innerHTML === codeCountry) {
-
-            var country = xmlDocument.getElementsByTagName("c_name")[i];
-            var of_name = country.childNodes[3].innerHTML;
-            var capitale = xmlDocument.getElementsByTagName("capital")[i].innerHTML;
-            chaineDesNoms = chaineDesNoms + of_name + " " + "(" + capitale + ") ";
-            break;
-        }
-    }
-    // Appel (ou recopie) de la fonction setNom(...) ou bien autre façon de modifier le texte 
-    // de l'élément "span"
-    setNom(chaineDesNoms);
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function AjaxLoadXsl(xmlDocumentUrl, xslDocumentUrl, baliseElementARecuperer, codeCountry) {
+function AjaxLoadXsl(xmlDocumentUrl, xslDocumentUrl, baliseElementARecuperer1, baliseElementARecuperer2, codeCountry) {
 
 
     // Chargement du fichier XSL à l'aide de XMLHttpRequest synchrone 
@@ -99,7 +51,22 @@ function AjaxLoadXsl(xmlDocumentUrl, xslDocumentUrl, baliseElementARecuperer, co
     var elementHtmlParent = window.document.getElementById("id_element_a_remplacer");
     
 	// insérer l'élément transformé dans la page html
-    elementHtmlParent.innerHTML=newXmlDocument.getElementsByTagName(baliseElementARecuperer)[0].innerHTML;
+    elementHtmlParent.innerHTML=newXmlDocument.getElementsByTagName(baliseElementARecuperer1)[0].innerHTML;
+
+    // Recherche du parent (dont l'id est "here") de l'élément à remplacer dans le document HTML courant
+    var elementHtmlParent1 = window.document.getElementById("id_element_a_remplacer_1");
+    
+	// insérer l'élément transformé dans la page html
+    elementHtmlParent1.innerHTML=newXmlDocument.getElementsByTagName(baliseElementARecuperer2)[0].innerHTML;
+    var spans = getElementsByXPath("/html/body//new_tag");
+    /* Search the document for all h2 elements.
+    * The result will likely be an unordered node iterator. */
+    var unElementHtml;
+    for(let i = 0; i < spans.length ; i++) {
+        unElementHtml=document.getElementById(spans[i].textContent);
+        unElementHtml.setAttribute('style', "fill: #008000; fill-opacity: 1; stroke:white; stroke-opacity: 1; stroke-width:0.5;");
+    }
+    
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -156,7 +123,6 @@ function func5() {
     }
 } 
 
-
 function func5_1() {
     var elementHtmlParent = window.document.getElementById("titre_img_a_remplacer");
     elementHtmlParent.innerHTML = this.getAttribute('title');
@@ -166,7 +132,6 @@ function func5_1() {
 function func6() {
     // Chargement du fichier XML à l'aide de XMLHttpRequest synchrone 
     var xmlDocument = chargerHttpXML('worldHigh.svg');
-    
     // Recherche du parent (dont l'id est "here") de l'élément à remplacer dans le document HTML courant
     var elementHtmlParent = window.document.getElementById("carte_a_remplacer");
     
@@ -182,7 +147,7 @@ function func6() {
 //////////////////////////////////////////////////////////////////////
 /////  Make countries clickable    ///////////////////////////
 function func7() {
-    var elementHtml = window.document.getElementById("carte_a_remplacer").childNodes[0].childNodes[3];
+    var elementHtml=window.document.getElementById("carte_a_remplacer").childNodes[0].childNodes[3];
     for(i=1 ; i < elementHtml.childNodes.length ; i+=2) {
         elementHtml.childNodes[i].addEventListener("click" , func7_1);
     }
@@ -190,7 +155,7 @@ function func7() {
 
 function func7_1() {
     var elementHtmlParent = window.document.getElementById("countryname_a_remplacer");
-    elementHtmlParent.innerHTML = this.id;
+    elementHtmlParent.innerHTML = this.getAttribute('countryname');
 }
 
 /////////////////////////////////////////////////////////
@@ -203,19 +168,45 @@ function func8() {
 }
 
 function func8_1() {
-    this.style = "fill: blue; fill-opacity: 1; stroke:while; stroke-opacity: 1; stroke-width:0.5;";
-    var xmlDocument = chargerHttpXML("countriesTP.xml");
-    var codeC = xmlDocument.getElementsByTagName('cca2');
-    for(i = 0 ; i < codeC.length ; i++) {
-        if (this.id === codeC[i].innerHTML) {
-            AjaxLoadXsl1('countriesTP.xml', 'table_pays.xsl', 'element_a_recuperer', this.id);
-            break;
-        }   
-    }
+    this.style = "fill: blue; fill-opacity: 1; stroke:white; stroke-opacity: 1; stroke-width:0.5;";
+    AjaxLoadXsl1('countriesTP.xml', 'table_pays.xsl', 'element_a_recuperer', this.id);
 }
 
 function func8_2() {
     this.style = "fill: #CCCCCC; fill-opacity: 1; stroke:white; stroke-opacity: 1; stroke-width:0.5;";
+}
+
+//////////////////////////////////////////////////////
+/////// Quiz  ///////////////////////////////////
+function func11() {
+    var elementHtml = window.document.getElementById("carte_a_remplacer").childNodes[0].childNodes[3];
+    let taille = (elementHtml.childNodes.length-1) / 2; //taille 256
+    let i = Math.floor(Math.random() * (taille-1)); // 0-255
+
+    var unElementHtml = document.getElementById('country_name');
+    var nom_coun_ran = elementHtml.childNodes[2*i+1].getAttribute('countryname');
+    unElementHtml.innerHTML = nom_coun_ran;    
+    
+    for(i=1 ; i < elementHtml.childNodes.length ; i+=2) {
+        elementHtml.childNodes[i].addEventListener("click" , func11_1);
+    }
+}
+
+function func11_1() {
+    this.style = "fill: red; fill-opacity: 1; stroke:white; stroke-opacity: 1; stroke-width:0.5;";
+    var nom_coun_ran = document.getElementById('country_name').innerHTML;
+    if (this.getAttribute('countryname') === nom_coun_ran) {
+        alert("Correct");
+    }else {
+        alert("Incorrect");
+    }
+}
+
+function enBlanc() {
+    var elementHtml = window.document.getElementById("carte_a_remplacer").childNodes[0].childNodes[3];
+    for (let i = 1 ; i < elementHtml.childNodes.length ; i+=2) {
+        elementHtml.childNodes[i].style = "fill: #CCCCCC; fill-opacity: 1; stroke:white; stroke-opacity: 1; stroke-width:0.5;";
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -264,40 +255,28 @@ function chargerHttpJSON(jsonDocumentUrl) {
     return responseData;
 }
 
-
-
+function getElementsByXPath(xpath) {
+    let results = [];
+    let query = document.evaluate(xpath, document,
+        null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+    for (let i = 0, length = query.snapshotLength; i < length; ++i) {
+        results.push(query.snapshotItem(i));
+    }
+    return results;
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function Bouton4_ajaxBibliographieAvecParametres(xmlDocumentUrl, xslDocumentUrl, baliseElementARecuperer, paramXSL_type_reference) {
 
-    // Chargement du fichier XSL à l'aide de XMLHttpRequest synchrone 
-    var xslDocument = chargerHttpXML(xslDocumentUrl);
-
-	//création d'un processuer XSL
-    var xsltProcessor = new XSLTProcessor();
-
-    // Importation du .xsl
-    xsltProcessor.importStylesheet(xslDocument);
-	
-	//passage du paramètre à la feuille de style
-	xsltProcessor.setParameter("", "param_ref_type",paramXSL_type_reference);
-
-    // Chargement du fichier XML à l'aide de XMLHttpRequest synchrone 
-    var xmlDocument = chargerHttpXML(xmlDocumentUrl);
-
-    // Création du document XML transformé par le XSL
-    var newXmlDocument = xsltProcessor.transformToDocument(xmlDocument);
-    
-    // Recherche du parent (dont l'id est "here") de l'élément à remplacer dans le document HTML courant
-    var elementHtmlParent = window.document.getElementById("id_element_a_remplacer");
-    
-	// insérer l'élement transformé dans la page html
-    elementHtmlParent.innerHTML=newXmlDocument.getElementsByTagName(baliseElementARecuperer)[0].innerHTML;
-	
-
+function recupererPremierEnfantDeTypeElement(n) {
+    var x = n.firstChild;
+    while (x.nodeType != 1) { // Test if x is an element node (and not a text node or other)
+        x = x.nextSibling;
+    }
+    return x;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function Bouton4_ajaxEmployeesTableau(xmlDocumentUrl, xslDocumentUrl) {
-    //commenter la ligne suivante qui affiche la boîte de dialogue!
-    alert("Fonction à compléter...");
+//change le contenu de l'élément avec l'id "nom" avec la chaine de caractères en paramètre	  
+function setNom(nom) {
+    var elementHtmlARemplir = window.document.getElementById("id_nom_a_remplacer");
+    elementHtmlARemplir.innerHTML = nom;
 }
