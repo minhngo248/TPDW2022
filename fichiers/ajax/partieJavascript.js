@@ -17,7 +17,7 @@ function modifyColorReverse()
 
 /////////////////////////////////////////////////////////////////////
 //
-function search(codeCountry) {
+function Search(codeCountry) {
 
 	//recherche le nom officiel et la capitale du pays dont le code est en paramètre dans le fichier XML	
 
@@ -132,7 +132,7 @@ function AjaxLoadXsl1(xmlDocumentUrl, xslDocumentUrl, baliseElementARecuperer, c
 
 //////////////////////////////////////////////////////////////////////
 /////   Load exemple.svg and serialize it ///////////////
-function func4() {
+function ChargerImage() {
     // Chargement du fichier XML à l'aide de XMLHttpRequest synchrone 
     var xmlDocument = chargerHttpXML('exemple.svg');
     
@@ -149,21 +149,23 @@ function func4() {
 }
 
 ////////////////////////////////////////////////////////////////
-function func5() {
+//Rends exemple.svg clickable //////////
+function RendClick() {
     var elementHtml = window.document.getElementById("id_img_a_remplacer").childNodes[0].childNodes[1];
     for(i = 1; i <= 5; i+=2) {
-        elementHtml.childNodes[i].addEventListener("click" , func5_1);
+        elementHtml.childNodes[i].addEventListener("click" , RendClick_1);
     }
 } 
 
 
-function func5_1() {
+function RendClick_1() {
     var elementHtmlParent = window.document.getElementById("titre_img_a_remplacer");
     elementHtmlParent.innerHTML = this.getAttribute('title');
 }
 
 /////////////////////////////////////////////////////////////////////////
-function func6() {
+//Charge WorldHigh.svg //////////////////
+function ChargerImageCarte() {
     // Chargement du fichier XML à l'aide de XMLHttpRequest synchrone 
     var xmlDocument = chargerHttpXML('worldHigh.svg');
     
@@ -180,29 +182,29 @@ function func6() {
 }
 
 //////////////////////////////////////////////////////////////////////
-/////  Make countries clickable    ///////////////////////////
-function func7() {
+/////  Rends les pays clickables    ///////////////////////////
+function RendClickPays() {
     var elementHtml = window.document.getElementById("carte_a_remplacer").childNodes[0].childNodes[3];
     for(i=1 ; i < elementHtml.childNodes.length ; i+=2) {
-        elementHtml.childNodes[i].addEventListener("click" , func7_1);
+        elementHtml.childNodes[i].addEventListener("click" , RendClickPays_1);
     }
 }
 
-function func7_1() {
+function RendClickPays_1() {
     var elementHtmlParent = window.document.getElementById("countryname_a_remplacer");
     elementHtmlParent.innerHTML = this.id;
 }
 
 /////////////////////////////////////////////////////////
-function func8() {
+function ActiverMouse() {
     var elementHtml = window.document.getElementById("carte_a_remplacer").childNodes[0].childNodes[3];
     for(i=1 ; i < elementHtml.childNodes.length ; i+=2) {
-        elementHtml.childNodes[i].addEventListener("mouseover" , func8_1);
-        elementHtml.childNodes[i].addEventListener("mouseout" , func8_2);
+        elementHtml.childNodes[i].addEventListener("mouseover" , ActiverMouse_1);
+        elementHtml.childNodes[i].addEventListener("mouseout" , ActiverMouse_2);
     }
 }
 
-function func8_1() {
+function ActiverMouse_1() {
     this.style = "fill: blue; fill-opacity: 1; stroke:while; stroke-opacity: 1; stroke-width:0.5;";
     var xmlDocument = chargerHttpXML("countriesTP.xml");
     var codeC = xmlDocument.getElementsByTagName('cca2');
@@ -214,7 +216,7 @@ function func8_1() {
     }
 }
 
-function func8_2() {
+function ActiverMouse_2() {
     this.style = "fill: #CCCCCC; fill-opacity: 1; stroke:white; stroke-opacity: 1; stroke-width:0.5;";
 }
 
