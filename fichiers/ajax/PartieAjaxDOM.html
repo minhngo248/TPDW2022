@@ -26,9 +26,9 @@
     <input id="myButton2" name="Button 2" type="button" onClick="modifyColorReverse()" value="Bouton 2" />
     <br/><br/>
     
-    <h4>Bouton 3 : Remplace le texte "LES NOMS" avec le code de pays de saisi. Charge le fichier countries.xml en ajax.</h4>
+    <h4>Remplace le texte "Pays remplacé" avec le code de pays de saisi. Charge le fichier countries.xml en ajax.</h4>
     <input id="myText1" name="text" type="text" value="VN" />
-	<input id="myButton3" name="Button 3" type="button"  onClick="search(document.getElementById('myText1').value)" value="Bouton 3" />
+	<input id="myButton3" name="Button 3" type="button"  onClick="Search(document.getElementById('myText1').value)" value="Bouton 3" list="countries"/>
     <br/>
     <div id="id_element_a_remplacer">
         <p style="color: red; font-weight: bold;">Pays remplacé</p>
@@ -37,36 +37,41 @@
         <p style="color: red; font-weight: bold;">Pays remplacés</p>
     </div><br/>
 
-    <h4>Bouton 4 :</h4>
-    <input id="myButton4" name="Button 4" type="button" value="Bouton 4" onClick="func4()"/>
+    <h4>Affiche exemple.svg</h4>
+    <input id="myButton4" name="Button 4" type="button" value="Bouton 4" onClick="ChargerImage()"/>
     <br/>
     <div id="id_img_a_remplacer">
         <p style="color: red; font-weight: bold;">Image à remplacer</p>
     </div><br/>
 
-    <h4>Bouton 5 changer image to a button, cliquer sur l'image pour afficher son titre: </h4>
-    <input id="myButton5" name="Button 5" type="button" value="Bouton 5" onclick="func5()"/>
+    <h4>Rends l'image clickable, cliquer sur l'image pour afficher son titre: </h4>
+    <input id="myButton5" name="Button 5" type="button" value="Bouton 5" onclick="RendClick()"/>
     <br/>
     <div id="titre_img_a_remplacer">
         <p style="color: green; font-weight: bold;">Titre image à remplacer</p>
     </div>
     <br/>
 
-    <h4>Bouton 6 afficher la carte WorldHigh:</h4>
-    <input id="myButton6" name="Button 6" type="button" value="Bouton 6" onclick="func6()"/>
+    <h4>Afficher la carte WorldHigh:</h4>
+    <input id="myButton6" name="Button 6" type="button" value="Bouton 6" onclick="ChargerImageCarte()"/>
     <br/><br/>
 
-    <h4>Bouton 7 cliquer sur un pays:</h4>
-    <input id="myButton7" name="Button 7" type="button" value="Bouton 7" onclick="func7()"/>
+    <h4>Cliquer sur un pays:</h4>
+    <input id="myButton7" name="Button 7" type="button" value="Bouton 7" onclick="RendClickPays()"/>
     <br/>
     <div id="countryname_a_remplacer">
         <p style="color: green; font-weight: bold;">Nom d'un pays à remplacer</p>
     </div><br/>
 
-    <h4>Bouton 8 activer mouseover: </h4>
-    <input id="myButton8" name="Button 8" type="button" value="Bouton 8" onclick="func8()"/>
+    <h4>Activer mouseover: </h4>
+    <input id="myButton8" name="Button 8" type="button" value="Bouton 8" onclick="ActiverMouse()"/>
     <br/><br/>
-
+	    
+    <h4>Ajouter auto-complétion au bouton 3: </h4>
+    <input id="myButton9" name="Button 9" type="button" value="Bouton 9" onclick="AutoComplet()"/>
+    <datalist id="countries"/>
+    <br/><br/>
+	    
     <h4>Bouton 11 quiz: </h4>
     Cliquer sur le bouton 6 pour afficher la carte et faire le quiz <br/>
     <input id="myButton11" name="Button 11" type="button" value="Bouton 11" onclick="func11()"/>
