@@ -14,11 +14,11 @@
 						</ul>
 					</element_a_recuperer>
 
-					<element_a_recuperer_1>
+					<autre_element_meme_langue_a_recuperer>
 						
 						<xsl:apply-templates select=".//country[../country[$codecca2=.//cca2]/languages/child::node()/text()=.//languages/child::node()/text()]//cca2"/>
 						
-					</element_a_recuperer_1>
+					</autre_element_meme_langue_a_recuperer>
 				</body>
 			</html>
 		</xsl:template>
