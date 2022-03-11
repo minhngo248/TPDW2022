@@ -23,11 +23,11 @@ function Search(codeCountry) {
     // Charge le fichier XML contenant des références bibliographiques, une feuille de style, 
     // applique la feuille de style sur le fichier XML et affiche le résultat en bas de la page:
 	
-    AjaxLoadXsl('countriesTP.xml','cherchePays.xsl','element_a_recuperer','element_a_recuperer_1', codeCountry);
+    AjaxLoadXsl_Bouton_3('countriesTP.xml','cherchePays.xsl','element_a_recuperer','utre_element_meme_langue_a_recuperer', codeCountry);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function AjaxLoadXsl(xmlDocumentUrl, xslDocumentUrl, baliseElementARecuperer1, baliseElementARecuperer2, codeCountry) {
+function AjaxLoadXsl_Bouton_3(xmlDocumentUrl, xslDocumentUrl, baliseElementARecuperer1, baliseElementARecuperer2, codeCountry) {
 
 
     // Chargement du fichier XSL à l'aide de XMLHttpRequest synchrone 
@@ -54,7 +54,7 @@ function AjaxLoadXsl(xmlDocumentUrl, xslDocumentUrl, baliseElementARecuperer1, b
     elementHtmlParent.innerHTML=newXmlDocument.getElementsByTagName(baliseElementARecuperer1)[0].innerHTML;
 
     // Recherche du parent (dont l'id est "here") de l'élément à remplacer dans le document HTML courant
-    var elementHtmlParent1 = window.document.getElementById("id_element_a_remplacer_1");
+    var elementHtmlParent1 = window.document.getElementById("autre_element_meme_langue_a_remplacer");
     
 	// insérer l'élément transformé dans la page html
     elementHtmlParent1.innerHTML=newXmlDocument.getElementsByTagName(baliseElementARecuperer2)[0].innerHTML;
@@ -203,7 +203,7 @@ function AutoComplet()
 
 //////////////////////////////////////////////////////
 /////// Quiz  ///////////////////////////////////
-function func11() {
+function Quiz() {
     var elementHtml = window.document.getElementById("carte_a_remplacer").childNodes[0].childNodes[3];
     let taille = (elementHtml.childNodes.length-1) / 2; //taille 256
     let i = Math.floor(Math.random() * (taille-1)); // 0-255
@@ -217,7 +217,7 @@ function func11() {
     }
 }
 
-function func11_1() {
+function Quiz_1() {
     this.style = "fill: red; fill-opacity: 1; stroke:white; stroke-opacity: 1; stroke-width:0.5;";
     var nom_coun_ran = document.getElementById('country_name').innerHTML;
     if (this.getAttribute('countryname') === nom_coun_ran) {
