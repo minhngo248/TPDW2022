@@ -6,7 +6,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=iso-639-1" />
     <title>TP 3IF Ajax</title>
     <meta name="author" content="BEZIE Laetitia, NGO Ngoc Minh (B3121)">
-    
     <script type="text/javascript" src="partieJavascript.js"></script>
 </head>
 
@@ -17,12 +16,12 @@
     <hr/>
 
     <p>
-	<h4>Bouton 1 : Modifie la couleur de l'arrière plan de la page en bleu et la couleur du texte du bouton en blanc: </h4> 
+	<h4>Modifie la couleur de l'arrière plan de la page en bleu et la couleur du texte du bouton en blanc: </h4> 
     <input id="myButton1" name="Button 1" type="button" onClick="modifyColor()" value="Bouton 1" />
 	<br/>
 	<br/>
 
-	<h4>Bouton 2 : Remet la couleur de l'arrière plan en blanc: </h4> 
+	<h4>Remet la couleur de l'arrière plan en blanc: </h4> 
     <input id="myButton2" name="Button 2" type="button" onClick="modifyColorReverse()" value="Bouton 2" />
     <br/><br/>
     
@@ -69,26 +68,22 @@
 	    
     <h4>Ajouter auto-complétion au bouton 3: </h4>
     <input id="myButton9" name="Button 9" type="button" value="Bouton 9" onclick="AutoComplet()"/>
-    <datalist id="countries"/>
+    <datalist id="countries"></datalist>
     <br/><br/>
 	    
-    <h4>Bouton 11 quiz: </h4>
+    <h4>Quiz: </h4>
     Cliquer sur le bouton 6 pour afficher la carte et faire le quiz <br/>
-    <input id="myButton11" name="Button 11" type="button" value="Bouton 11" onclick="func11()"/>
+    <input id="myButton11" name="Button 11" type="button" value="Bouton 11" onclick="Quiz()"/>
     <br/>
     <div id="country_name">
         <p style="font-style: italic;">Nom d'un pays sera affiché ici </p>
     </div><br/>
-    en Blanc :
-    <input id="myButton11_2" name="Button 11_2" type="button" value="Bouton 11_2" onclick="enBlanc()"/>
+	   
+    <h4>Bonus: Remets la carte originale (reset) </h4>
+    <input id="Bonus" name="Bonus" type="button" value="Bonus" onclick="Reset()"/>
     <br/>
     </p>
     </div>
-
-<!--    <div>
-    <p>Les noms sont : <br/>
-        <span id="id_nom_a_remplacer" style="color: red; font-weight: bold;">LES NOMS (Cet élément va être remplacé par les noms) </span></p>
-    </div> -->
 
     <div id="table_a_remplacer">
         <p style="color: green; font-weight: bold;">Table à remplacer</p>

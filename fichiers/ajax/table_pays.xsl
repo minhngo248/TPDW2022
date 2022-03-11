@@ -3,6 +3,7 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	<xsl:output method="html"/>
 	<xsl:param name="code2" select="toto"/>
+	<xsl:param name="monnaie" select="toto1"/>
 		<xsl:template match="/">
 			<html>
 				<body bgcolor="#FFFFCC">
@@ -42,7 +43,7 @@
 	  </td>
 	    <td>
 		  <!--monnaie -->
-	  		<xsl:value-of select=".//currency"/>
+	  		<xsl:value-of select="$monnaie"/>
 	  	</td>
       <!--drapeaux-->
       <td>

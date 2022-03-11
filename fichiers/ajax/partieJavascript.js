@@ -15,7 +15,7 @@ function modifyColorReverse()
 }
 
 /////////////////////////////////////////////////////////////////////
-//
+//cherche le pays associé au code rentré en paramètre 
 function Search(codeCountry) {
 
 	//recherche le nom officiel et la capitale du pays dont le code est en paramètre dans le fichier XML	
@@ -23,10 +23,11 @@ function Search(codeCountry) {
     // Charge le fichier XML contenant des références bibliographiques, une feuille de style, 
     // applique la feuille de style sur le fichier XML et affiche le résultat en bas de la page:
 	
-    AjaxLoadXsl_Bouton_3('countriesTP.xml','cherchePays.xsl','element_a_recuperer','utre_element_meme_langue_a_recuperer', codeCountry);
+    AjaxLoadXsl_Bouton_3('countriesTP.xml','cherchePays.xsl','element_a_recuperer','autre_element_meme_langue_a_recuperer', codeCountry);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Charge le fichier xml en lui appliquant la feuille de style (question 3 et 11)
 function AjaxLoadXsl_Bouton_3(xmlDocumentUrl, xslDocumentUrl, baliseElementARecuperer1, baliseElementARecuperer2, codeCountry) {
 
 
@@ -58,19 +59,20 @@ function AjaxLoadXsl_Bouton_3(xmlDocumentUrl, xslDocumentUrl, baliseElementARecu
     
 	// insérer l'élément transformé dans la page html
     elementHtmlParent1.innerHTML=newXmlDocument.getElementsByTagName(baliseElementARecuperer2)[0].innerHTML;
-    var spans = getElementsByXPath("/html/body//new_tag");
+    
+    var new_tags = document.getElementsByTagName("new_tag");
     /* Search the document for all h2 elements.
     * The result will likely be an unordered node iterator. */
     var unElementHtml;
-    for(let i = 0; i < spans.length ; i++) {
-        unElementHtml=document.getElementById(spans[i].textContent);
+    for(let i = 0; i < new_tags.length ; i++) {
+        unElementHtml=document.getElementById(new_tags[i].innerHTML);
         unElementHtml.setAttribute('style', "fill: #008000; fill-opacity: 1; stroke:white; stroke-opacity: 1; stroke-width:0.5;");
     }
-    
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function AjaxLoadXsl1(xmlDocumentUrl, xslDocumentUrl, baliseElementARecuperer, codeCountry) {
+//Charge le fichier xml en lui appliquant la feuille de style question 8 et 10)
+function AjaxLoadXsl_Bouton_8(xmlDocumentUrl, xslDocumentUrl, baliseElementARecuperer, codeCountry) {
 
 
     // Chargement du fichier XSL à l'aide de XMLHttpRequest synchrone 
@@ -90,6 +92,19 @@ function AjaxLoadXsl1(xmlDocumentUrl, xslDocumentUrl, baliseElementARecuperer, c
     // Création du document XML transformé par le XSL
     var newXmlDocument = xsltProcessor.transformToDocument(xmlDocument);
     
+    var elementCca2=xmlDocument.getElementsByTagName("cca2");
+    var elementCca3=xmlDocument.getElementsByTagName("cca3");
+    for (let i = 0 ; i < elementCca2.length ; i++) {
+        if (elementCca2[i].innerHTML === codeCountry) {
+            var unElementCcn3 = elementCca3[i];
+            var text = unElementCcn3.innerHTML.toLowerCase();
+            var dataJson = chargerHttpJSON('https://restcountries.com/v2/alpha/' + text);
+            xsltProcessor.setParameter("", "monnaie", dataJson.currencies[0].name);
+            newXmlDocument = xsltProcessor.transformToDocument(xmlDocument);
+            break;
+        }
+    }
+
     // Recherche du parent (dont l'id est "here") de l'élément à remplacer dans le document HTML courant
     var elementHtmlParent = window.document.getElementById("table_a_remplacer");
     
@@ -98,7 +113,7 @@ function AjaxLoadXsl1(xmlDocumentUrl, xslDocumentUrl, baliseElementARecuperer, c
 }
 
 //////////////////////////////////////////////////////////////////////
-/////   Load exemple.svg and serialize it ///////////////
+/////Affiche exemple.svg (charge et sérialise)
 function ChargerImage() {
     // Chargement du fichier XML à l'aide de XMLHttpRequest synchrone 
     var xmlDocument = chargerHttpXML('exemple.svg');
@@ -116,6 +131,7 @@ function ChargerImage() {
 }
 
 ////////////////////////////////////////////////////////////////
+//Rends exemple.svg clickable
 function RendClick() {
     var elementHtml = window.document.getElementById("id_img_a_remplacer").childNodes[0].childNodes[1];
     for(i = 1; i <= 5; i+=2) {
@@ -129,6 +145,7 @@ function RendClick_1() {
 }
 
 /////////////////////////////////////////////////////////////////////////
+//Affiche WorldHigh.svg (charge et sérialise)
 function ChargerImageCarte() {
     // Chargement du fichier XML à l'aide de XMLHttpRequest synchrone 
     var xmlDocument = chargerHttpXML('worldHigh.svg');
@@ -145,7 +162,7 @@ function ChargerImageCarte() {
 }
 
 //////////////////////////////////////////////////////////////////////
-/////  Make countries clickable    ///////////////////////////
+/////  Rends les pays clickables 
 function RendClickPays() {
     var elementHtml=window.document.getElementById("carte_a_remplacer").childNodes[0].childNodes[3];
     for(i=1 ; i < elementHtml.childNodes.length ; i+=2) {
@@ -158,7 +175,8 @@ function RendClickPays_1() {
     elementHtmlParent.innerHTML = this.getAttribute('countryname');
 }
 
-/////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
+//Capte les mouvements de la souris
 function ActiverMouse() {
     var elementHtml = window.document.getElementById("carte_a_remplacer").childNodes[0].childNodes[3];
     for(i=1 ; i < elementHtml.childNodes.length ; i+=2) {
@@ -166,16 +184,17 @@ function ActiverMouse() {
         elementHtml.childNodes[i].addEventListener("mouseout" , ActiverMouse_2);
     }
 }
-
+//Mouvement d'entrée de la souris: coloration du pays en bleu et affichage de ses informations
 function ActiverMouse_1() {
     this.style = "fill: blue; fill-opacity: 1; stroke:white; stroke-opacity: 1; stroke-width:0.5;";
-    AjaxLoadXsl1('countriesTP.xml', 'table_pays.xsl', 'element_a_recuperer', this.id);
+    AjaxLoadXsl_Bouton_8('countriesTP.xml', 'table_pays.xsl', 'element_a_recuperer', this.id);
 }
-
+//Mouvement de sortie de la souris: remettre le pays en gris
 function ActiverMouse_2() {
     this.style = "fill: #CCCCCC; fill-opacity: 1; stroke:white; stroke-opacity: 1; stroke-width:0.5;";
 }
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
+//auto-complète le champ de saisie associé au bouton 3
 function AutoComplet()
 {
 	// Chargement du fichier XSL à l'aide de XMLHttpRequest synchrone 
@@ -213,7 +232,7 @@ function Quiz() {
     unElementHtml.innerHTML = nom_coun_ran;    
     
     for(i=1 ; i < elementHtml.childNodes.length ; i+=2) {
-        elementHtml.childNodes[i].addEventListener("click" , func11_1);
+        elementHtml.childNodes[i].addEventListener("click" , Quiz_1);
     }
 }
 
@@ -226,8 +245,9 @@ function Quiz_1() {
         alert("Incorrect");
     }
 }
-
-function enBlanc() {
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Remets la carte originale (sans les coloration)
+function Reset() {
     var elementHtml = window.document.getElementById("carte_a_remplacer").childNodes[0].childNodes[3];
     for (let i = 1 ; i < elementHtml.childNodes.length ; i+=2) {
         elementHtml.childNodes[i].style = "fill: #CCCCCC; fill-opacity: 1; stroke:white; stroke-opacity: 1; stroke-width:0.5;";
@@ -278,30 +298,4 @@ function chargerHttpJSON(jsonDocumentUrl) {
     var responseData = eval("(" + httpAjax.responseText + ")");
 
     return responseData;
-}
-
-function getElementsByXPath(xpath) {
-    let results = [];
-    let query = document.evaluate(xpath, document,
-        null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
-    for (let i = 0, length = query.snapshotLength; i < length; ++i) {
-        results.push(query.snapshotItem(i));
-    }
-    return results;
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-function recupererPremierEnfantDeTypeElement(n) {
-    var x = n.firstChild;
-    while (x.nodeType != 1) { // Test if x is an element node (and not a text node or other)
-        x = x.nextSibling;
-    }
-    return x;
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//change le contenu de l'élément avec l'id "nom" avec la chaine de caractères en paramètre	  
-function setNom(nom) {
-    var elementHtmlARemplir = window.document.getElementById("id_nom_a_remplacer");
-    elementHtmlARemplir.innerHTML = nom;
 }
