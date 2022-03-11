@@ -71,7 +71,7 @@ function AjaxLoadXsl_Bouton_3(xmlDocumentUrl, xslDocumentUrl, baliseElementARecu
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Charge le fichier xml en lui appliquant la feuille de style question 8 et 10)
+//Charge le fichier xml en lui appliquant la feuille de style (question 8 et 10)
 function AjaxLoadXsl_Bouton_8(xmlDocumentUrl, xslDocumentUrl, baliseElementARecuperer, codeCountry) {
 
 
@@ -91,7 +91,8 @@ function AjaxLoadXsl_Bouton_8(xmlDocumentUrl, xslDocumentUrl, baliseElementARecu
 
     // Création du document XML transformé par le XSL
     var newXmlDocument = xsltProcessor.transformToDocument(xmlDocument);
-    
+	
+    //ajout de la monnaie associé au pays
     var elementCca2=xmlDocument.getElementsByTagName("cca2");
     var elementCca3=xmlDocument.getElementsByTagName("cca3");
     for (let i = 0 ; i < elementCca2.length ; i++) {
