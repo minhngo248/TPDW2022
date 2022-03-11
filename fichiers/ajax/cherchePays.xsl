@@ -30,6 +30,6 @@
 		</xsl:template>
 
 		<xsl:template match="cca2">
-		<new_tag> <xsl:value-of select = "."/> - </new_tag>
+		<new_tag><xsl:value-of select = "."/></new_tag>
 		</xsl:template>
 </xsl:stylesheet>

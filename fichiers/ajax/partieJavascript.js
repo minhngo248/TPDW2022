@@ -61,12 +61,14 @@ function AjaxLoadXsl_Bouton_3(xmlDocumentUrl, xslDocumentUrl, baliseElementARecu
     elementHtmlParent1.innerHTML=newXmlDocument.getElementsByTagName(baliseElementARecuperer2)[0].innerHTML;
     
     var new_tags = document.getElementsByTagName("new_tag");
-    /* Search the document for all h2 elements.
-    * The result will likely be an unordered node iterator. */
-    var unElementHtml;
+    var pathElem = document.getElementsByTagName('path');
     for(let i = 0; i < new_tags.length ; i++) {
-        unElementHtml=document.getElementById(new_tags[i].innerHTML);
-        unElementHtml.setAttribute('style', "fill: #008000; fill-opacity: 1; stroke:white; stroke-opacity: 1; stroke-width:0.5;");
+        for(let j = 0 ; j < pathElem.length ; j++) {
+            if(pathElem[j].id === new_tags[i].innerHTML) {
+                pathElem[j].setAttribute('style', "fill: #008000; fill-opacity: 1; stroke:white; stroke-opacity: 1; stroke-width:0.5;");
+                break;    
+            }
+        }
     }
 }
 
