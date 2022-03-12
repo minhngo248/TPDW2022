@@ -60,7 +60,7 @@ function AjaxLoadXsl_Bouton_3(xmlDocumentUrl, xslDocumentUrl, baliseElementARecu
 	// insérer l'élément transformé dans la page html
     elementHtmlParent1.innerHTML=newXmlDocument.getElementsByTagName(baliseElementARecuperer2)[0].innerHTML;
     
-    var new_tags = document.getElementsByTagName("new_tag");
+    var new_tags = document.getElementsByTagName("li");
     var pathElem = document.getElementsByTagName('path');
     for(let i = 0; i < new_tags.length ; i++) {
         for(let j = 0 ; j < pathElem.length ; j++) {

@@ -15,9 +15,9 @@
 					</element_a_recuperer>
 
 					<autre_element_meme_langue_a_recuperer>
-						
+						<ul>
 						<xsl:apply-templates select=".//country[../country[$codecca2=.//cca2]/languages/child::node()/text()=.//languages/child::node()/text()]//cca2"/>
-						
+						</ul>
 					</autre_element_meme_langue_a_recuperer>
 				</body>
 			</html>
@@ -30,6 +30,6 @@
 		</xsl:template>
 
 		<xsl:template match="cca2">
-		<new_tag><xsl:value-of select = "."/></new_tag>
+		<li><xsl:value-of select = "."/></li>
 		</xsl:template>
 </xsl:stylesheet>
