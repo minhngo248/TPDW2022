@@ -201,7 +201,7 @@ function ActiverMouse_2() {
 function AutoComplet()
 {
 	// Chargement du fichier XSL à l'aide de XMLHttpRequest synchrone 
-    var xslDocument = chargerHttpXML('cherchePaysAuto.xsl');
+    var xslDocument = chargerHttpXML('cherchePays.xsl');
     
     //création d'un processuer XSL
     var xsltProcessor = new XSLTProcessor();
@@ -226,16 +226,16 @@ function AutoComplet()
 //////////////////////////////////////////////////////
 /////// Quiz  ///////////////////////////////////
 function Quiz() {
-    var elementHtml = window.document.getElementById("carte_a_remplacer").childNodes[0].childNodes[3];
-    let taille = (elementHtml.childNodes.length-1) / 2; //taille 256
+    var elementHtml = window.document.getElementsByTagName("g")[0];
+    let taille = elementHtml.children.length; //taille 256
     let i = Math.floor(Math.random() * (taille-1)); // 0-255
 
     var unElementHtml = document.getElementById('country_name');
-    var nom_coun_ran = elementHtml.childNodes[2*i+1].getAttribute('countryname');
+    var nom_coun_ran = elementHtml.children[i].getAttribute('countryname');
     unElementHtml.innerHTML = nom_coun_ran;    
     
-    for(i=1 ; i < elementHtml.childNodes.length ; i+=2) {
-        elementHtml.childNodes[i].addEventListener("click" , Quiz_1);
+    for(i=0 ; i < elementHtml.children.length ; i++) {
+        elementHtml.children[i].addEventListener("click" , Quiz_1);
     }
 }
 
@@ -252,8 +252,8 @@ function Quiz_1() {
 //Remets la carte originale (sans les coloration)
 function Reset() {
     var elementHtml = window.document.getElementById("carte_a_remplacer").childNodes[0].childNodes[3];
-    for (let i = 1 ; i < elementHtml.childNodes.length ; i+=2) {
-        elementHtml.childNodes[i].style = "fill: #CCCCCC; fill-opacity: 1; stroke:white; stroke-opacity: 1; stroke-width:0.5;";
+    for (let i = 0 ; i < elementHtml.children.length ; i++) {
+        elementHtml.children[i].style = "fill: #CCCCCC; fill-opacity: 1; stroke:white; stroke-opacity: 1; stroke-width:0.5;";
     }
 }
 

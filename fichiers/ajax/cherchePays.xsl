@@ -19,6 +19,12 @@
 						<xsl:apply-templates select=".//country[../country[$codecca2=.//cca2]/languages/child::node()/text()=.//languages/child::node()/text()]//cca2"/>
 						</ul>
 					</autre_element_meme_langue_a_recuperer>
+
+					<datalist>
+						<xsl:for-each select=".//country">
+							<option value="{country_codes/cca2}"/>
+						</xsl:for-each>	
+					</datalist>	
 				</body>
 			</html>
 		</xsl:template>
